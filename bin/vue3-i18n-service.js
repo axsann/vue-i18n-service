@@ -36,7 +36,10 @@ function createLocale (newLocale, extendedLocale) {
         .filter(block => block.type === 'i18n')
         .forEach(block => {
           let content = JSON.parse(block.content)
-          content[newLocale] = content[extendedLocale]
+          Object.entries(content[extendedLocale]).forEach(([k, v]) => {
+            if ( !content[newLocale][k] )
+              content[newLocale][k] = v
+          })
           out[file] = content
         })
     })
